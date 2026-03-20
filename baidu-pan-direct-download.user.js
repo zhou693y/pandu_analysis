@@ -266,10 +266,33 @@
 
     // 注入按钮
     function injectButton() {
+        console.log('[百度网盘直链] 脚本已启动');
+        
         // 等待页面加载
+        let attempts = 0;
+        const maxAttempts = 20;
+        
         const checkInterval = setInterval(() => {
-            const toolbar = document.querySelector('.slide-show-right') || 
-                           document.querySelector('.share-file-toolbar');
+            attempts++;
+            console.log(`[百度网盘直链] 尝试注入按钮 (${attempts}/${maxAttempts})`);
+            
+            // 尝试多个可能的位置
+            const selectors = [
+                '.slide-show-right',
+                '.share-file-toolbar',
+                '.wp-s-header__right',
+                '.nd-main-layout__header',
+                '.nd-file-list-toolbar'
+            ];
+            
+            let toolbar = null;
+            for (const selector of selectors) {
+                toolbar = document.querySelector(selector);
+                if (toolbar) {
+                    console.log(`[百度网盘直链] 找到工具栏: ${selector}`);
+                    break;
+                }
+            }
             
             if (toolbar && !document.querySelector('.direct-download-btn')) {
                 const btn = document.createElement('button');
@@ -277,14 +300,35 @@
                 btn.textContent = '获取直链';
                 btn.onclick = getDownloadLink;
                 toolbar.appendChild(btn);
+                console.log('[百度网盘直链] 按钮注入成功');
+                clearInterval(checkInterval);
+            } else if (attempts >= maxAttempts) {
+                console.error('[百度网盘直链] 未找到合适的位置插入按钮');
+                console.log('[百度网盘直链] 尝试插入到页面顶部');
+                
+                // 降级方案：插入到页面顶部
+                const fallbackBtn = document.createElement('div');
+                fallbackBtn.style.cssText = `
+                    position: fixed;
+                    top: 80px;
+                    right: 20px;
+                    z-index: 9999;
+                `;
+                fallbackBtn.innerHTML = `
+                    <button class="direct-download-btn">获取直链</button>
+                `;
+                document.body.appendChild(fallbackBtn);
+                fallbackBtn.querySelector('.direct-download-btn').onclick = getDownloadLink;
+                console.log('[百度网盘直链] 使用降级方案，按钮已插入到页面顶部');
                 clearInterval(checkInterval);
             }
         }, 500);
-
-        // 10 秒后停止检查
-        setTimeout(() => clearInterval(checkInterval), 10000);
     }
 
     // 启动
-    injectButton();
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', injectButton);
+    } else {
+        injectButton();
+    }
 })();
