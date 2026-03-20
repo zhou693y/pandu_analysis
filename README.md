@@ -1,116 +1,89 @@
 # 百度网盘直链获取工具
 
-一个简单易用的百度网盘直链获取工具，支持手机和电脑端使用。
+一个简单易用的百度网盘直链获取工具，基于 Tampermonkey 用户脚本。
 
 ## 功能特点
 
-- ✅ 纯前端界面，后端代理绕过 CORS
-- ✅ 响应式设计，手机/电脑均可使用
-- ✅ 自动提取链接中的提取码
-- ✅ 一键复制下载链接
-- ✅ 简洁美观的界面
-- ✅ 免费部署到 Vercel
+- ✅ 在百度网盘分享页面直接获取下载链接
+- ✅ 一键复制到剪贴板
+- ✅ 支持电脑和手机端
+- ✅ 纯本地运行，安全可靠
+- ✅ 无需服务器，即装即用
 
-## 使用方法
+## 快速开始
 
-1. 打开工具网页
-2. 粘贴百度网盘分享链接（支持自动提取提取码）
-3. 如链接中没有提取码，请手动输入
-4. 点击"获取下载链接"
-5. 复制获取到的真实下载链接
-6. 使用 IDM 或其他下载工具下载
+### 1. 安装 Tampermonkey
 
-## 部署方式
+**电脑端：**
+- Chrome/Edge: [Chrome 网上应用店](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+- Firefox: [Firefox 附加组件](https://addons.mozilla.org/zh-CN/firefox/addon/tampermonkey/)
 
-### 方式一：Vercel 部署（推荐）
+**手机端：**
+- Android: 使用 Kiwi Browser 或 Firefox
+- iOS: 从 App Store 安装 Tampermonkey
 
-1. Fork 本项目到你的 GitHub 账号
-2. 访问 [Vercel](https://vercel.com)
-3. 点击 "New Project"
-4. 导入你 Fork 的项目
-5. 点击 "Deploy"
-6. 等待部署完成，获得访问链接
+### 2. 安装脚本
 
-### 方式二：本地开发
+1. 点击 [baidu-pan-direct-download.user.js](./baidu-pan-direct-download.user.js)
+2. 点击 "Raw" 按钮
+3. Tampermonkey 会自动弹出安装页面
+4. 点击"安装"
 
-1. 安装依赖：
-```bash
-npm install
-```
+### 3. 使用
 
-2. 启动开发服务器：
-```bash
-npm run dev
-```
+1. 访问百度网盘分享链接
+2. 登录你的百度网盘账号
+3. 点击页面上的"获取直链"按钮
+4. 复制下载链接
+5. 使用 IDM 等下载工具下载
 
-3. 访问 `http://localhost:3000`
+## 详细安装指南
 
-### 方式三：GitHub Pages（不推荐）
+查看 [TAMPERMONKEY_INSTALL.md](./TAMPERMONKEY_INSTALL.md) 获取详细的安装和使用说明。
 
-由于需要后端代理，GitHub Pages 无法直接使用。建议使用 Vercel 部署。
+## 常见问题
 
-## 技术架构
+### Q: 为什么需要登录百度网盘？
+A: 百度网盘的下载接口需要验证用户身份，必须登录后才能获取真实下载链接。
 
-### 前端
-- HTML5
-- CSS3
+### Q: 手机端可以用吗？
+A: 可以！Android 使用 Kiwi Browser 或 Firefox，iOS 使用 Safari + Tampermonkey。
+
+### Q: 安全吗？
+A: 完全安全。脚本开源可审查，所有操作在本地浏览器完成，不上传任何数据。
+
+### Q: 为什么不用网页版？
+A: 百度网盘 API 需要登录状态，纯网页版无法获取用户的 Cookie。Tampermonkey 方案可以直接在百度网盘页面运行，访问登录状态。
+
+## 技术栈
+
+- Tampermonkey 用户脚本
 - JavaScript (ES6+)
-
-### 后端
-- Vercel Serverless Functions
-- Node.js
-
-### 为什么需要后端？
-
-百度网盘 API 有 CORS 跨域限制，纯前端无法直接调用。通过 Vercel Serverless Functions 作为代理，可以绕过这个限制。
+- GM_xmlhttpRequest API
+- GM_setClipboard API
 
 ## 项目结构
 
 ```
 .
-├── index.html          # 主页面
-├── src/
-│   ├── css/
-│   │   └── style.css   # 样式文件
-│   └── js/
-│       ├── LinkParser.js    # 链接解析模块（支持自动提取提取码）
-│       ├── ApiCaller.js     # API 调用模块（调用后端代理）
-│       ├── UIController.js  # UI 控制模块
-│       └── main.js          # 主控逻辑
-├── api/
-│   └── parse.js        # Vercel Serverless Function（后端代理）
-├── vercel.json         # Vercel 配置
-├── package.json        # 项目配置
-└── README.md
+├── baidu-pan-direct-download.user.js  # Tampermonkey 脚本
+├── TAMPERMONKEY_INSTALL.md            # 详细安装指南
+└── README.md                          # 本文件
 ```
 
-## 常见问题
+## 为什么选择 Tampermonkey 方案？
 
-### Q: 为什么获取失败？
-A: 可能的原因：
-- 分享链接已失效
-- 提取码错误
-- 网络连接问题
-- 百度网盘 API 限制
+之前尝试过纯网页 + 后端代理的方案，但遇到以下问题：
+1. 百度网盘 API 需要用户登录状态（Cookie）
+2. 后端代理无法获取用户的登录信息
+3. 返回错误码 9019（需要登录）
 
-### Q: 手机端可以使用吗？
-A: 可以，本工具采用响应式设计，完美支持手机端使用。
-
-### Q: 数据安全吗？
-A: 后端代理只是转发请求，不存储任何数据。所有请求都是实时处理。
-
-### Q: 本地打开 HTML 文件为什么不能用？
-A: 因为需要后端代理，必须通过 HTTP 服务器访问。建议部署到 Vercel 或使用 `npm run dev` 本地开发。
-
-### Q: 提取码能自动识别吗？
-A: 可以！如果分享链接格式为 `https://pan.baidu.com/s/xxxxx?pwd=yyyy`，工具会自动提取提取码。
-
-## 部署成本
-
-- Vercel 免费套餐：
-  - 每月 100GB 带宽
-  - 无限请求
-  - 完全够个人使用
+Tampermonkey 方案的优势：
+- ✅ 可以访问用户的登录状态
+- ✅ 无需部署服务器
+- ✅ 安装简单，即装即用
+- ✅ 支持电脑和手机端
+- ✅ 完全本地运行，安全可靠
 
 ## 许可证
 
@@ -119,3 +92,4 @@ MIT License
 ## 免责声明
 
 本工具仅供学习交流使用，请勿用于商业用途。使用本工具下载的内容，请遵守相关法律法规和百度网盘服务条款。
+
