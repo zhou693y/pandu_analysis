@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="百度网盘直链获取工具 - 快速获取真实下载链接">
+  <title>百度网盘直链获取工具</title>
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">百度网盘直链获取</h1>
+      <p class="subtitle">输入分享链接，获取真实下载地址</p>
+    </header>
+
+    <main class="main">
+      <div class="input-group">
+        <label for="link-input" class="label">分享链接</label>
+        <input 
+          type="text" 
+          id="link-input" 
+          class="input" 
+          placeholder="粘贴百度网盘分享链接，如：https://pan.baidu.com/s/xxxxx"
+          autocomplete="off"
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="pwd-input" class="label">提取码（可选）</label>
+        <input 
+          type="text" 
+          id="pwd-input" 
+          class="input" 
+          placeholder="如果有提取码，请输入"
+          maxlength="4"
+          autocomplete="off"
+        >
+      </div>
+
+      <button id="fetch-button" class="button" disabled>获取下载链接</button>
+
+      <div id="error-container" class="error-container" style="display: none;"></div>
+
+      <div id="result-container" class="result-container"></div>
+
+      <div class="instructions">
+        <h3 class="instructions-title">使用说明</h3>
+        <ol class="instructions-list">
+          <li>复制百度网盘分享链接</li>
+          <li>粘贴到上方输入框</li>
+          <li>如有提取码，请一并输入</li>
+          <li>点击"获取下载链接"按钮</li>
+          <li>复制获取到的真实下载链接</li>
+          <li>使用 IDM 等下载工具下载</li>
+        </ol>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>纯前端工具，数据不上传服务器，安全可靠</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript 模块 -->
+  <script src="src/js/LinkParser.js"></script>
+  <script src="src/js/ApiCaller.js"></script>
+  <script src="src/js/UIController.js"></script>
+  <script src="src/js/main.js"></script>
+</body>
+</html>

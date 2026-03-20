@@ -1,0 +1,19 @@
+{
+  "name": "baidu-pan-direct-download",
+  "version": "1.0.0",
+  "description": "百度网盘直链获取工具",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "baidu",
+    "pan",
+    "download"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}
