@@ -2,7 +2,6 @@
   "name": "baidu-pan-direct-download",
   "version": "1.0.0",
   "description": "百度网盘直链获取工具",
-  "type": "module",
   "scripts": {
     "dev": "vercel dev",
     "deploy": "vercel --prod"

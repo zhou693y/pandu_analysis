@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/parse.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
-}

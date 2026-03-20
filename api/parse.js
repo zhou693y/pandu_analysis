@@ -1,7 +1,5 @@
 // Vercel Serverless Function - 百度网盘 API 代理
-// 用于绕过 CORS 限制
-
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   // 设置 CORS 头
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -59,4 +57,4 @@ export default async function handler(req, res) {
       message: error.message 
     });
   }
-}
+};
